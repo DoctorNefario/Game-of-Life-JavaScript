@@ -23,6 +23,7 @@
 						<a class="mdl-navigation__link" href="/">Home</a>
 						<a class="mdl-navigation__link" href="">Alphabeast</a>
 						<a class="mdl-navigation__link" href="decoder">Decoder</a>
+						<a class="mdl-navigation__link" href="gameoflife">Game of Life</a>
 						<!--<a class="mdl-navigation__link" href="">Link</a>-->
 					</nav>
 				</div>
@@ -33,6 +34,7 @@
 					<a class="mdl-navigation__link" href="/">Home</a>
 					<a class="mdl-navigation__link" href="">Alphabeast</a>
 					<a class="mdl-navigation__link" href="decoder">Decoder</a>
+					<a class="mdl-navigation__link" href="gameoflife">Game of Life</a>
 					<!--<a class="mdl-navigation__link" href="">Link</a>-->
 				</nav>
 			</div>
