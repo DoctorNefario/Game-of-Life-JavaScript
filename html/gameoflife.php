@@ -13,6 +13,7 @@
 		
 		<!-- Specific resources -->
         <script src="js/gameoflife.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/gameoflife.css">
 	</head>
 	<body>
 		<!-- Always shows a header, even in smaller screens. -->
@@ -45,8 +46,8 @@
 			</div>
 			<main class="mdl-layout__content">
                 <canvas id="golCanvas" width="0" height="0">Canvas is required for this program, please update or switch to a different browser such as Chrome or Firefox</canvas>
-                <canvas id="turtleCanvas" width="0" height="0"></canvas>
                 <noscript><p>Your browser does not support JavaScript, this simply cannot work without it.</p></noscript>
+                <a id="turtleInNewWindow" href="">Turtle</a>
             </main>
         </div>
     </body>

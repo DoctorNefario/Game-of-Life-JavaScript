@@ -326,5 +326,10 @@ window.onload = function() {
         return false;
     });
 
+    document.getElementById("turtleInNewWindow").addEventListener('click', function () {
+        window.open("turtle.php");
+        return false;
+    });
+
     startGoL();
 };
