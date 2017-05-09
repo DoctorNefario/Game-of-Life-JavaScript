@@ -2,12 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="15fc5f03-755f-4db6-a39b-0174e702f959" name="Default" comment="New changes to support the turtle thing">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/html/css/gameoflife.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/html/js/turtle.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/html/turtle.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/html/gameoflife.php" afterPath="$PROJECT_DIR$/html/gameoflife.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/html/js/gameoflife.js" afterPath="$PROJECT_DIR$/html/js/gameoflife.js" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -20,21 +14,21 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="gameoflife.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="gameoflife.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/html/gameoflife.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="15" column="73" lean-forward="false" selection-start-line="15" selection-start-column="73" selection-end-line="15" selection-end-column="73" />
+            <state relative-caret-position="-164">
+              <caret line="2" column="10" lean-forward="true" selection-start-line="2" selection-start-column="10" selection-end-line="2" selection-end-column="10" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="gameoflife.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="gameoflife.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/html/js/gameoflife.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="675">
-              <caret line="330" column="21" lean-forward="true" selection-start-line="330" selection-start-column="21" selection-end-line="330" selection-end-column="21" />
+            <state relative-caret-position="658">
+              <caret line="329" column="72" lean-forward="false" selection-start-line="329" selection-start-column="72" selection-end-line="329" selection-end-column="72" />
               <folding />
             </state>
           </provider>
@@ -102,10 +96,10 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/html/js/turtle.js" />
-        <option value="$PROJECT_DIR$/html/js/gameoflife.js" />
         <option value="$PROJECT_DIR$/html/turtle.php" />
         <option value="$PROJECT_DIR$/html/gameoflife.php" />
         <option value="$PROJECT_DIR$/html/css/gameoflife.css" />
+        <option value="$PROJECT_DIR$/html/js/gameoflife.js" />
       </list>
     </option>
   </component>
@@ -704,7 +698,7 @@
       <workItem from="1494068314461" duration="895000" />
       <workItem from="1494118274388" duration="2930000" />
       <workItem from="1494310370585" duration="412000" />
-      <workItem from="1494310823124" duration="6591000" />
+      <workItem from="1494310823124" duration="7022000" />
     </task>
     <task id="LOCAL-00001" summary="Changed things in IntelliJ">
       <created>1494310927354</created>
@@ -717,7 +711,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="10828000" />
+    <option name="totallyTimeSpent" value="11259000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="264" y="40" width="1396" height="1000" extended-state="0" />
@@ -840,14 +834,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/html/js/gameoflife.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="675">
-          <caret line="330" column="21" lean-forward="true" selection-start-line="330" selection-start-column="21" selection-end-line="330" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/html/js/turtle.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
@@ -874,8 +860,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/html/gameoflife.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="15" column="73" lean-forward="false" selection-start-line="15" selection-start-column="73" selection-end-line="15" selection-end-column="73" />
+        <state relative-caret-position="-164">
+          <caret line="2" column="10" lean-forward="true" selection-start-line="2" selection-start-column="10" selection-end-line="2" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/html/js/gameoflife.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="658">
+          <caret line="329" column="72" lean-forward="false" selection-start-line="329" selection-start-column="72" selection-end-line="329" selection-end-column="72" />
           <folding />
         </state>
       </provider>
