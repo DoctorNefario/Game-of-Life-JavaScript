@@ -1,6 +1,6 @@
 /**
- * Created by Charles Maher on 4/5 2017.
- */
+    * Created by Charles Maher on 4/5 2017.
+    */
 window.onload = function() {
 
     //Start of customisation
@@ -9,8 +9,8 @@ window.onload = function() {
     var pointWidth = 20;
     var pointHeight = 20;
 
-    var pointsRight = 10;
-    var pointsDown = 10;
+    var pointsRight = 20;
+    var pointsDown = 20;
 
     var pointMargin = 2;
 
@@ -35,7 +35,7 @@ window.onload = function() {
     var onOffGrid = [];
     var surroundingGrid = [];
     var needsUpdateGrid = [];
-    var prevGrid = [];
+    var blankGrid = [];
 
     var canvas = document.getElementById('golCanvas');
     var ctx = canvas.getContext('2d');
@@ -102,6 +102,7 @@ window.onload = function() {
                 pointHeight
             );
         } else {
+            console.log("shit m8", curVal);
         }
     }
 
@@ -135,9 +136,7 @@ window.onload = function() {
         var edgeTop = y === 0;
         var edgeBottom = y === pointsDown - 1;
 
-        var pointState = onOffGrid[y][x];
-
-        var totalSurrounding = pointState === 1 ? -1 : 0;
+        var totalSurrounding = 0;
 
         var rangeY;
         var normRangeX;
@@ -186,14 +185,15 @@ window.onload = function() {
         rangeY.forEach(function(elemY) {
             if (elemY === y) {
                 otherRangeX.forEach(function(elemX) {
-                    if (onOffGrid[elemY][elemX] === 1) totalSurrounding++;
+                    if (onOffGrid[elemY][elemX] === 1) {totalSurrounding++;}
                 });
             } else {
                 normRangeX.forEach(function(elemX) {
-                    if (onOffGrid[elemY][elemX] === 1) totalSurrounding++;
+                    if (onOffGrid[elemY][elemX] === 1) {totalSurrounding++;}
                 });
             }
         });
+
         return totalSurrounding;
     }
 
@@ -259,22 +259,30 @@ window.onload = function() {
     }
 
     function startGoL() {
+
+        $('#golCanvas').attr({
+            width: canvasWidth,
+            height: canvasHeight
+        }).css({
+            backgroundColor: backShade
+        });
+
         ctx.fillStyle = offShade;
         for (var startY = 0; startY < pointsDown; startY++) {
-            onOffGrid.push([]);
-            surroundingGrid.push([]);
-            needsUpdateGrid.push([]);
+            blankGrid.push([]);
             for (var startX = 0; startX < pointsRight; startX++) {
-                onOffGrid[startY].push(0);
-                surroundingGrid[startY].push(0);
-                needsUpdateGrid[startY].push(0);
+                blankGrid[startY].push(0);
 
                 var startRectX = startX * (pointWidthAndMargin) + pointMarginT;
                 var startRectY = startY * (pointHeightAndMargin) + pointMarginT;
 
                 ctx.fillRect(startRectX, startRectY, pointWidth, pointHeight);
             }
+            onOffGrid.push(blankGrid[startY].slice(0));
+            surroundingGrid.push(blankGrid[startY].slice(0));
+            needsUpdateGrid.push(blankGrid[startY].slice(0));
         }
+
     }
 
     function findNextFrame() {
@@ -287,7 +295,6 @@ window.onload = function() {
             }
         }
 
-        console.log("before turning points")
         for (var nextY = 0; nextY < pointsDown; nextY++) {
             for (var nextX = 0; nextX < pointsRight; nextX++) {
                 if (needsUpdateGrid[nextY][nextX] === 1) {
@@ -303,16 +310,7 @@ window.onload = function() {
         }
     }
 
-    $('#golCanvas').attr({
-        width: canvasWidth,
-        height: canvasHeight
-    }).css({
-        backgroundColor: backShade
-    });
-
     canvas.addEventListener('click', function (e) {
-        console.log(returnMousePointOnGrid(e));
-
         var xy = returnMousePointOnGrid(e);
 
         var x = xy[0];
@@ -322,8 +320,9 @@ window.onload = function() {
         updateVisual(x, y);
     }, false);
 
-    $('body').on('contextmenu', '#golCanvas', function (e) {
+    $('body').on('contextmenu', '#golCanvas', function () {
         findNextFrame();
+
         return false;
     });
 
