@@ -1,1 +1,1 @@
-# Game-of-Life-JavaScript
+# My website
