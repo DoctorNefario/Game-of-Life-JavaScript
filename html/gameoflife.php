@@ -44,7 +44,8 @@
 				</nav>
 			</div>
 			<main class="mdl-layout__content">
-                <canvas id="golCanvas" width="0" height="0">Canvas is required for this program, please update or switch to a different browser such as Firefox</canvas>
+                <canvas id="golCanvas" width="0" height="0">Canvas is required for this program, please update or switch to a different browser such as Chrome or Firefox</canvas>
+                <canvas id="turtleCanvas" width="0" height="0"></canvas>
                 <noscript><p>Your browser does not support JavaScript, this simply cannot work without it.</p></noscript>
             </main>
         </div>
