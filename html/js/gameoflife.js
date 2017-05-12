@@ -327,7 +327,7 @@ window.onload = function() {
     });
 
     document.getElementById("turtleInNewWindow").addEventListener('click', function () {
-        window.open("turtle.php","","fullscreen=no, width=800, height=720");
+        window.open("turtle","","fullscreen=no, width=800, height=720");
         return false;
     });
 
