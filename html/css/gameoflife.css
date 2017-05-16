@@ -4,3 +4,22 @@
     bottom: 0;
     left: 0;
 }
+
+#rightClickBackground {
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    /*This is temporary*/
+    height: 1000px;
+    background: transparent;
+}
+
+#rightClickMenu {
+    background-color: white;
+}
+
+#golInterval {
+
+}

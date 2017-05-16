@@ -19,6 +19,9 @@ window.onload = function() {
     var offShade = '#222';
     var backShade = '#ccc';
 
+    //Will use
+    var golTimeout = 500; //Interval between frames in milliseconds
+
     //Whether or not it loops
     var loopsAround = true;
 
@@ -331,13 +334,18 @@ window.onload = function() {
     }, false);
 
     $('body').on('contextmenu', '#golCanvas', function () {
-        findNextFrame();
+        $("#rightClickBackground").show();
+
+        return false;
+    }).on('contextmenu', '#rightClickBackground', function () {
+        $("#rightClickBackground").hide();
 
         return false;
     });
 
+    //For turtle, opens a new window
     document.getElementById("turtleInNewWindow").addEventListener('click', function () {
-        window.open("turtle","","fullscreen=no, width=800, height=720");
+        window.open("turtle", "", "fullscreen=no, width=800, height=720");
         return false;
     });
 
@@ -347,6 +355,11 @@ window.onload = function() {
 
     $("#step").click(function() {
         findNextFrame();
+    });
+
+    $("#rightClickBackground").click(function() {
+        //Hide menu
+        $("#rightClickBackground").hide();
     });
 
     startGoL();

@@ -47,9 +47,16 @@
 			<main class="mdl-layout__content">
                 <canvas id="golCanvas" width="0" height="0">Canvas is required for this program, please update or switch to a different browser such as Chrome or Firefox</canvas>
                 <noscript><p>Your browser does not support JavaScript, this simply cannot work without it.</p></noscript>
-				<button id="playPause">Play</button>
-				<button id="step">Step</button>
-				<button id="clear">Clear</button>
+
+                <div id="rightClickBackground">
+                    <div id="rightClickMenu">
+                        <button id="playPause">Play</button>
+                        <button id="step">Step</button>
+                        <button id="clear">Clear</button>
+                        <input id="golInterval" type="range" min="0" max="500" step="5" />'
+                    </div>
+                </div>
+
                 <a id="turtleInNewWindow" href="">Turtle</a>
             </main>
         </div>
