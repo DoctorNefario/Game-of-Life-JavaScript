@@ -258,6 +258,16 @@ window.onload = function() {
         }
     }
 
+    function clearGrid() {
+        for (var gy = 0; gy < onOffGrid.length; gy++) {
+            for (var gx = 0; gx < onOffGrid[gy].length; gx++) {
+                if (onOffGrid[gy][gx] === 1) {
+                    turnPointOff(gx, gy);
+                }
+            }
+        }
+    }
+
     function startGoL() {
 
         $('#golCanvas').attr({
@@ -329,6 +339,14 @@ window.onload = function() {
     document.getElementById("turtleInNewWindow").addEventListener('click', function () {
         window.open("turtle","","fullscreen=no, width=800, height=720");
         return false;
+    });
+
+    $("#clear").click(function() {
+        clearGrid();
+    });
+
+    $("#step").click(function() {
+        findNextFrame();
     });
 
     startGoL();
