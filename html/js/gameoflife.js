@@ -9,18 +9,15 @@ window.onload = function() {
     var pointWidth = 20;
     var pointHeight = 20;
 
-    var pointsRight = 20;
-    var pointsDown = 20;
-
     var pointMargin = 2;
+
+    var pointsRight = Math.floor($(window).width() / (pointWidth + pointMargin * 2)) - 1;
+    var pointsDown = Math.floor($(window).height() / (pointHeight + pointMargin * 2)) - 1;
 
     //Colours
     var onShade = '#eee';
     var offShade = '#222';
     var backShade = '#ccc';
-
-    //Will use
-    var golTimeout = 500; //Interval between frames in milliseconds
 
     //Whether or not it loops
     var loopsAround = true;
@@ -41,7 +38,7 @@ window.onload = function() {
 
     var onOffGrid = [];
     var surroundingGrid = [];
-    var needsUpdateGrid = [];
+    var needsUpdatePoints = [];
     var blankGrid = [];
 
     var canvas = document.getElementById('golCanvas');
@@ -108,8 +105,6 @@ window.onload = function() {
                 pointWidth,
                 pointHeight
             );
-        } else {
-            console.log("shit m8", curVal);
         }
     }
 
@@ -251,7 +246,9 @@ window.onload = function() {
 
             rangeY.forEach(function (elemY) {
                 normRangeX.forEach(function (elemX) {
-                    needsUpdateGrid[elemY][elemX] = 1;
+                    if (needsUpdatePoints.indexOf([elemX, elemY]) === -1) {
+                        needsUpdatePoints.push([elemX, elemY]);
+                    }
                 });
             });
         }
@@ -297,32 +294,49 @@ window.onload = function() {
             }
             onOffGrid.push(blankGrid[startY].slice(0));
             surroundingGrid.push(blankGrid[startY].slice(0));
-            needsUpdateGrid.push(blankGrid[startY].slice(0));
         }
 
     }
 
     function findNextFrame() {
         findAllUpdatePoints();
-        for (var y = 0; y < pointsDown; y++) {
-            for (var x = 0; x < pointsRight; x++) {
-                if (needsUpdateGrid[y][x] === 1) {
-                    surroundingGrid[y][x] = calculateSurrounding(x, y);
-                }
-            }
-        }
 
-        for (var nextY = 0; nextY < pointsDown; nextY++) {
-            for (var nextX = 0; nextX < pointsRight; nextX++) {
-                if (needsUpdateGrid[nextY][nextX] === 1) {
-                    if (onOffGrid[nextY][nextX] === 0) {
-                        if (surroundingGrid[nextY][nextX] === 3) {
-                            turnPointOn(nextX, nextY);
-                        }
-                    } else if (surroundingGrid[nextY][nextX] < 2 || surroundingGrid[nextY][nextX] > 3) {
-                        turnPointOff(nextX, nextY);
-                    }
+        needsUpdatePoints.forEach(function(elem) {
+            surroundingGrid[elem[1]][elem[0]] = calculateSurrounding(elem[0], elem[1]);
+        });
+
+        needsUpdatePoints.forEach(function(elem) {
+            if (onOffGrid[elem[1]][elem[0]] === 0) {
+                if (surroundingGrid[elem[1]][elem[0]] === 3) {
+                    turnPointOn(elem[0], elem[1]);
                 }
+            } else if (surroundingGrid[elem[1]][elem[0]] < 2 || surroundingGrid[elem[1]][elem[0]] > 3) {
+                    turnPointOff(elem[0], elem[1]);
+            }
+        });
+
+        needsUpdatePoints = blankGrid.slice();
+    }
+
+    function changeMenu(mode) {
+        var RCM = $("#rightClickMenu");
+        var RCB = $("#rightClickBackground");
+        if (!mode) {
+            var currentState = RCM.is(":visible");
+            if (currentState) {
+                RCM.hide();
+                RCB.hide();
+            } else {
+                RCM.show();
+                RCB.show();
+            }
+        } else {
+            if (mode === 0) {
+                RCM.hide();
+                RCB.hide();
+            } else {
+                RCM.show();
+                RCB.show();
             }
         }
     }
@@ -344,14 +358,18 @@ window.onload = function() {
         updateVisual(x, y);
     }, false);
 
+
+    //This is broken at the moment.
+    /*
     $('body').on('contextmenu', '#golCanvas', function () {
-        $("#rightClickBackground").show();
+        changeMenu(1);
 
         return false;
     });
-   
+   */
+
     document.getElementById("rightClickBackground").addEventListener("click", function () {
-        $("#rightClickBackground").hide();
+        changeMenu(0);
     });
 
     //For turtle, opens a new window
@@ -363,8 +381,18 @@ window.onload = function() {
     $("#playPause").click(function() {
         clearTimeout(nextFrameTimeout);
         loopFrames = !loopFrames;
+        if (loopFrames) {
+            $("#playPause").empty().append("Pause");
+        } else {
+            $("#playPause").empty().append("Play");
+        }
         frameLoop();
     });
+
+    function resetGoLTimeout() {
+        clearTimeout(nextFrameTimeout);
+        frameLoop();
+    }
     
     $("#clear").click(function() {
         clearGrid();
@@ -376,8 +404,20 @@ window.onload = function() {
 
     $("#rightClickBackground").click(function() {
         //Hide menu
-        $("#rightClickBackground").hide();
+        changeMenu(0);
     });
+
+    $("#intervalSlider").change(function() {
+        stepTimeout = 0 + $("#intervalSlider").val();
+        $("#intervalNumber").val(stepTimeout);
+        resetGoLTimeout();
+    });
+
+
+    $("#intervalNumber").change(function() {
+        stepTimeout = 0 + $("#intervalNumber").val();
+        resetGoLTimeout();
+    }).val(stepTimeout);
 
     startGoL();
 };
