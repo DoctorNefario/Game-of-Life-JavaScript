@@ -348,10 +348,10 @@ window.onload = function() {
         $("#rightClickBackground").show();
 
         return false;
-    }).on('contextmenu', '#rightClickBackground', function () {
+    });
+   
+    document.getElementById("rightClickBackground").addEventListener("click", function () {
         $("#rightClickBackground").hide();
-
-        return false;
     });
 
     //For turtle, opens a new window
