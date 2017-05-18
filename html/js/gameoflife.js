@@ -27,6 +27,10 @@ window.onload = function() {
 
     //End of customisation
 
+    var loopFrames = false;
+    var stepTimeout = 100;
+    var nextFrameTimeout;
+   
     var pointMarginT = pointMargin * 2;
 
     var pointWidthAndMargin = pointWidth + pointMarginT;
@@ -322,6 +326,13 @@ window.onload = function() {
             }
         }
     }
+    
+    function frameLoop() {
+        if (loopFrames) {
+            findNextFrame();
+            nextFrameTimeout = setTimeout(frameLoop, stepTimeout);
+        }
+    }
 
     canvas.addEventListener('click', function (e) {
         var xy = returnMousePointOnGrid(e);
@@ -349,6 +360,12 @@ window.onload = function() {
         return false;
     });
 
+    $("#playPause").click(function() {
+        clearTimeout(nextFrameTimeout);
+        loopFrames = !loopFrames;
+        frameLoop();
+    });
+    
     $("#clear").click(function() {
         clearGrid();
     });
