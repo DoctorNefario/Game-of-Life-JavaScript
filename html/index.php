@@ -44,7 +44,7 @@
 				</nav>
 			</div>
 			<main class="mdl-layout__content">
-				THis website is on <a href="https://github.com/DoctorNefario/N-Website">GitHub</a>.
+				This website is on <a style="color:#0000EE" href="https://github.com/DoctorNefario/N-Website">GitHub</a>.
 			</main>
 		</div>
 	</body>
