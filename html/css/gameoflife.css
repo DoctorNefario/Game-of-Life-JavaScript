@@ -6,24 +6,27 @@
     left: 0;
 }
 
-#rightClickBackground {
-    display: none;
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    /*This is temporary*/
-    height: 1000px;
-    background: transparent;
-}
-
 #rightClickMenu {
     background-color: white;
-    width: 300px;
+    width: 484px;
+    height: 120px;
+}
+
+#golWindow {
+    width: 484px;
+    height: 604px;
+    margin: 20px auto;
+    background-color: #90caf9;
+    border: 2px solid black;
 }
 
 #intervalSlider {
+    margin: auto;
+}
 
+#intervalNumberDiv {
+    display: inline-block;
+    padding-left: 20px;
 }
 
 .menuButton {
