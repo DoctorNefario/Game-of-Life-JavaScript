@@ -14,9 +14,18 @@ window.onload = function() {
 
     var pointMargin = 0.5;
 
-    var turtleX = 50;
-    var turtleY = 50;
-    var turtleFacing = 0;
+    var turtle = [];
+    turtle.push(new Turtle(
+        0, //Facing, 0 = Up, 1 = Left, etc...
+        49, //Starting X coordinate
+        50 //Starting Y coordinate
+    ));
+
+    turtle.push(new Turtle(
+        2, //Facing, 0 = Up, 1 = Left, etc...
+        51, //Starting X coordinate
+        50 //Starting Y coordinate
+    ));
 
     var turtleEnd = false;
 
@@ -51,6 +60,12 @@ window.onload = function() {
     var canvas = document.getElementById('turtleCanvas');
     var ctx = canvas.getContext('2d');
 
+    function Turtle(facing, startX, startY) {
+        this.facing = facing;
+        this.curX = startX;
+        this.curY = startY;
+    }
+
     function drawPoint(x, y) {
         var curVal = onOffGrid[y][x];
         if (curVal === 1) {
@@ -74,96 +89,103 @@ window.onload = function() {
         }
     }
 
-    function drawTurtle () {
+    function drawTurtle (turtleNum) {
         ctx.fillStyle = turtleShade;
         ctx.fillRect(
-            turtleX * (pointWidthAndMargin) + pointMarginT,
-            turtleY * (pointHeightAndMargin) + pointMarginT,
+            turtle[turtleNum].curX * (pointWidthAndMargin) + pointMarginT,
+            turtle[turtleNum].curY * (pointHeightAndMargin) + pointMarginT,
             pointWidth,
             pointHeight
         );
     }
 
-    function turnRight () {
-        switch (turtleFacing) {
+    function turnRight (turtleNum) {
+        switch (turtle[turtleNum].facing) {
             case 3:
-                turtleFacing = 0;
+                turtle[turtleNum].facing = 0;
                 break;
             default:
-                turtleFacing++;
+                turtle[turtleNum].facing++;
         }
     }
 
-    function turnLeft () {
-        switch (turtleFacing) {
+    function turnLeft (turtleNum) {
+        switch (turtle[turtleNum].facing) {
             case 0:
-                turtleFacing = 3;
+                turtle[turtleNum].facing = 3;
                 break;
             default:
-                turtleFacing--;
+                turtle[turtleNum].facing--;
         }
     }
 
-    function moveForward () {
+    function moveForward (turtleNum) {
         //0 is up, 1 is right, etc
-        switch (turtleFacing) {
+        switch (turtle[turtleNum].facing) {
             case 0:
-                if (turtleY > 0) {
-                    turtleY--;
-                } else turtleY = pointsDown - 1;
-                break
+                if (turtle[turtleNum].curY > 0) {
+                    turtle[turtleNum].curY--;
+                } else turtle[turtleNum].curY = pointsDown - 1;
+                break;
             case 1:
-                if (turtleX < pointsRight - 1) {
-                    turtleX++;
-                } else turtleX = 0;
-                break
+                if (turtle[turtleNum].curX < pointsRight - 1) {
+                    turtle[turtleNum].curX++;
+                } else turtle[turtleNum].curX = 0;
+                break;
             case 2:
-                if (turtleY < pointsDown - 1) {
-                    turtleY++;
-                } else turtleY = 0;
-                break
+                if (turtle[turtleNum].curY < pointsDown - 1) {
+                    turtle[turtleNum].curY++;
+                } else turtle[turtleNum].curY = 0;
+                break;
             case 3:
-                if (turtleX > 0) {
-                    turtleX--;
-                } else turtleX = pointsRight - 1;
-                break
+                if (turtle[turtleNum].curX > 0) {
+                    turtle[turtleNum].curX--;
+                } else turtle[turtleNum].curX = pointsRight - 1;
+                break;
             default:
-                console.log("incorrect given: " + turtleFacing);
+                console.log("incorrect given: " + turtle[turtleNum].facing);
         }
     }
 
-    function findNextFrame() {
+    function findNextFrame(turtleNum) {
         var sx;
         var sy;
-        if (onOffGrid[turtleY][turtleX] === 0) {
-            sx = turtleX;
-            sy = turtleY;
+        if (onOffGrid[turtle[turtleNum].curY][turtle[turtleNum].curX] === 0) {
+            sx = turtle[turtleNum].curX;
+            sy = turtle[turtleNum].curY;
 
-            onOffGrid[turtleY][turtleX] = 1;
+            onOffGrid[turtle[turtleNum].curY][turtle[turtleNum].curX] = 1;
 
-            turnRight();
-            moveForward();
+            turnRight(turtleNum);
+            moveForward(turtleNum);
             drawPoint(sx, sy);
-            drawTurtle();
+            drawTurtle(turtleNum);
         } else {
-            sx = turtleX;
-            sy = turtleY;
+            sx = turtle[turtleNum].curX;
+            sy = turtle[turtleNum].curY;
 
-            onOffGrid[turtleY][turtleX] = 0;
+            onOffGrid[turtle[turtleNum].curY][turtle[turtleNum].curX] = 0;
 
-            turnLeft();
-            moveForward();
+            turnLeft(turtleNum);
+            moveForward(turtleNum);
             drawPoint(sx, sy);
-            drawTurtle();
+            drawTurtle(turtleNum);
         }
     }
 
     function findNextFrameUntilEnd () {
         if (!turtleEnd) {
-            findNextFrame();
-            setTimeout(function () {findNextFrameUntilEnd();}, turtleTimeout);
+            for (var i = 0; i < turtle.length; i++) {
+                findNextFrame(i);
+            }
+            setTimeout(function () {
+                findNextFrameUntilEnd();
+            }, turtleTimeout);
         } else {
-            console.log("ended", turtleX, turtleY);
+            console.log("ended");
+            for (var e = 0; e < turtle.length; e++) {
+                console.log("turtle " + e, turtle[e].curX, turtle[e].curY);
+            }
         }
     }
 
