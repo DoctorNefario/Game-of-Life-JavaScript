@@ -1,254 +1,284 @@
-/**
-    * Created by Charles Maher on 9/5 2017.
-    */
-window.onload = function() {
+//Start of customisation
 
-    //Start of customisation
+//Dimensions, in pixels
+var pointWidth = 5;
+var pointHeight = 5;
 
-    //Dimensions, in px (Can change to any other measurement by putting it in quotes)
-    var pointWidth = 5;
-    var pointHeight = 5;
+var pointsRight = 100;
+var pointsDown = 100;
 
-    var pointsRight = 100;
-    var pointsDown = 100;
+var pointMargin = 0.5;
 
-    var pointMargin = 0.5;
+var turtles = []; //Don't change this
 
-    var turtle = [];
-    turtle.push(new Turtle(
-        0, //Facing, 0 = Up, 1 = Left, etc...
-        49, //Starting X coordinate
-        50 //Starting Y coordinate
-    ));
+turtles.push(new Turtle( //Template for creating turtles
+    0, //Facing, 0 = Up, 1 = Right, etc...
+    47, //Starting X coordinate
+    50 //Starting Y coordinate
+));
 
-    turtle.push(new Turtle(
-        2, //Facing, 0 = Up, 1 = Left, etc...
-        51, //Starting X coordinate
-        50 //Starting Y coordinate
-    ));
+turtles.push(new Turtle(
+    1,
+    50,
+    47
+));
 
-    var turtleEnd = false;
+turtles.push(new Turtle(
+    2,
+    53,
+    50
+));
 
-    var turtleTimeout = 1000;
+turtles.push(new Turtle(
+    3,
+    50,
+    53
+));
 
-    //Colours
-    var offShade = '#eee';
-    var onShade = '#222';
-    var backShade = '#ccc';
-    var fastShade = "#f00";
-    var normalShade = "#4cf";
+var turtleEnd = false;
+var messyEnd = true;
+
+var turtleInterval = 1000;
+
+//Colours
+var offShade = '#eee';
+var onShade = '#222';
+var backShade = '#ccc';
+var fastShade = "#f00";
+var stepShade = "#3e3";
+var normalShade = "#4cf";
 
 
-    //End of customisation
+//End of customisation
 
-    var turtleShade = normalShade;
+var modeNames = ["Normal", "Fast", "Frame by frame"]; //Just for displaying the current mode
+var modeTimeouts = [500, 0, "∞"]; //The string is bad practice, these should all be numbers
+var shades = [normalShade, fastShade, stepShade]; //This is easier to work with
+var turtleShade = shades[0];
 
-    var veryFast = false;
-    var prevTimeout = turtleTimeout;
+var modeNum = 0; //0 = Normal, 1 = Fast, 2 = Frame by frame
 
-    var pointMarginT = pointMargin * 2;
+var pointMarginT = pointMargin * 2;
 
-    var pointWidthAndMargin = pointWidth + pointMarginT;
-    var pointHeightAndMargin = pointHeight + pointMarginT;
+var pointWidthAndMargin = pointWidth + pointMarginT;
+var pointHeightAndMargin = pointHeight + pointMarginT;
 
-    var canvasWidth = pointsRight * (pointWidthAndMargin) + pointMarginT;
-    var canvasHeight = pointsDown * (pointHeightAndMargin) + pointMarginT;
+var canvasWidth = pointsRight * (pointWidthAndMargin) + pointMarginT;
+var canvasHeight = pointsDown * (pointHeightAndMargin) + pointMarginT;
 
-    var onOffGrid = [];
-    var blankGrid = [];
+var onOffGrid = [];
+var blankGrid = [];
 
-    var canvas = document.getElementById('turtleCanvas');
-    var ctx = canvas.getContext('2d');
+var canvas, ctx;
 
-    function Turtle(facing, startX, startY) {
-        this.facing = facing;
-        this.curX = startX;
-        this.curY = startY;
-    }
+var assignedFrameTimeout;
 
-    function drawPoint(x, y) {
-        var curVal = onOffGrid[y][x];
-        if (curVal === 1) {
-            ctx.fillStyle = onShade;
-            ctx.fillRect(
-                x * (pointWidthAndMargin) + pointMarginT,
-                y * (pointHeightAndMargin) + pointMarginT,
-                pointWidth,
-                pointHeight
-            );
-        } else if (curVal === 0) {
-            ctx.fillStyle = offShade;
-            ctx.fillRect(
-                x * (pointWidthAndMargin) + pointMarginT,
-                y * (pointHeightAndMargin) + pointMarginT,
-                pointWidth,
-                pointHeight
-            );
-        } else {
-            console.log("shit m8", curVal);
-        }
-    }
+function Turtle(facing, startX, startY) {
+    this.facing = facing;
+    this.curX = startX;
+    this.curY = startY;
+}
 
-    function drawTurtle (turtleNum) {
-        ctx.fillStyle = turtleShade;
+function drawPoint(x, y) {
+    var curVal = onOffGrid[y][x];
+    if (curVal === 1) {
+        ctx.fillStyle = onShade;
         ctx.fillRect(
-            turtle[turtleNum].curX * (pointWidthAndMargin) + pointMarginT,
-            turtle[turtleNum].curY * (pointHeightAndMargin) + pointMarginT,
+            x * (pointWidthAndMargin) + pointMarginT,
+            y * (pointHeightAndMargin) + pointMarginT,
+            pointWidth,
+            pointHeight
+        );
+    } else if (curVal === 0) {
+        ctx.fillStyle = offShade;
+        ctx.fillRect(
+            x * (pointWidthAndMargin) + pointMarginT,
+            y * (pointHeightAndMargin) + pointMarginT,
             pointWidth,
             pointHeight
         );
     }
+}
 
-    function turnRight (turtleNum) {
-        switch (turtle[turtleNum].facing) {
-            case 3:
-                turtle[turtleNum].facing = 0;
-                break;
-            default:
-                turtle[turtleNum].facing++;
-        }
+function drawTurtle(turtleNum) {
+    ctx.fillStyle = turtleShade;
+    ctx.fillRect(
+        turtles[turtleNum].curX * (pointWidthAndMargin) + pointMarginT,
+        turtles[turtleNum].curY * (pointHeightAndMargin) + pointMarginT,
+        pointWidth,
+        pointHeight
+    );
+}
+
+function drawAllTurtles() {
+    for (var i = 0; i < turtles.length; i++) {
+        drawTurtle(i);
     }
+}
 
-    function turnLeft (turtleNum) {
-        switch (turtle[turtleNum].facing) {
-            case 0:
-                turtle[turtleNum].facing = 3;
-                break;
-            default:
-                turtle[turtleNum].facing--;
-        }
+function turnRight(turtleNum) {
+    switch (turtles[turtleNum].facing) {
+        case 3:
+            turtles[turtleNum].facing = 0;
+            break;
+        default:
+            turtles[turtleNum].facing++;
     }
+}
 
-    function moveForward (turtleNum) {
-        //0 is up, 1 is right, etc
-        switch (turtle[turtleNum].facing) {
-            case 0:
-                if (turtle[turtleNum].curY > 0) {
-                    turtle[turtleNum].curY--;
-                } else turtle[turtleNum].curY = pointsDown - 1;
-                break;
-            case 1:
-                if (turtle[turtleNum].curX < pointsRight - 1) {
-                    turtle[turtleNum].curX++;
-                } else turtle[turtleNum].curX = 0;
-                break;
-            case 2:
-                if (turtle[turtleNum].curY < pointsDown - 1) {
-                    turtle[turtleNum].curY++;
-                } else turtle[turtleNum].curY = 0;
-                break;
-            case 3:
-                if (turtle[turtleNum].curX > 0) {
-                    turtle[turtleNum].curX--;
-                } else turtle[turtleNum].curX = pointsRight - 1;
-                break;
-            default:
-                console.log("incorrect given: " + turtle[turtleNum].facing);
-        }
+function turnLeft(turtleNum) {
+    switch (turtles[turtleNum].facing) {
+        case 0:
+            turtles[turtleNum].facing = 3;
+            break;
+        default:
+            turtles[turtleNum].facing--;
     }
+}
 
-    function findNextFrame(turtleNum) {
-        var sx;
-        var sy;
-        if (onOffGrid[turtle[turtleNum].curY][turtle[turtleNum].curX] === 0) {
-            sx = turtle[turtleNum].curX;
-            sy = turtle[turtleNum].curY;
-
-            onOffGrid[turtle[turtleNum].curY][turtle[turtleNum].curX] = 1;
-
-            turnRight(turtleNum);
-            moveForward(turtleNum);
-            drawPoint(sx, sy);
-            drawTurtle(turtleNum);
-        } else {
-            sx = turtle[turtleNum].curX;
-            sy = turtle[turtleNum].curY;
-
-            onOffGrid[turtle[turtleNum].curY][turtle[turtleNum].curX] = 0;
-
-            turnLeft(turtleNum);
-            moveForward(turtleNum);
-            drawPoint(sx, sy);
-            drawTurtle(turtleNum);
-        }
+function moveForward(turtleNum) {
+    //0 is up, 1 is right, etc
+    switch (turtles[turtleNum].facing) {
+        case 0:
+            if (turtles[turtleNum].curY > 0) {
+                turtles[turtleNum].curY--;
+            } else turtles[turtleNum].curY = pointsDown - 1;
+            break;
+        case 1:
+            if (turtles[turtleNum].curX < pointsRight - 1) {
+                turtles[turtleNum].curX++;
+            } else turtles[turtleNum].curX = 0;
+            break;
+        case 2:
+            if (turtles[turtleNum].curY < pointsDown - 1) {
+                turtles[turtleNum].curY++;
+            } else turtles[turtleNum].curY = 0;
+            break;
+        case 3:
+            if (turtles[turtleNum].curX > 0) {
+                turtles[turtleNum].curX--;
+            } else turtles[turtleNum].curX = pointsRight - 1;
+            break;
+        default:
+            console.log("incorrect given: " + turtles[turtleNum].facing);
     }
+}
 
-    function findNextFrameUntilEnd () {
-        if (!turtleEnd) {
-            for (var i = 0; i < turtle.length; i++) {
-                findNextFrame(i);
-            }
-            setTimeout(function () {
-                findNextFrameUntilEnd();
-            }, turtleTimeout);
-        } else {
-            console.log("ended");
-            for (var e = 0; e < turtle.length; e++) {
-                console.log("turtle " + e, turtle[e].curX, turtle[e].curY);
-            }
-        }
+function findNextFrameFor(turtleNum) {
+    var turt = turtles[turtleNum];
+    var sx;
+    var sy;
+    if (onOffGrid[turt.curY][turt.curX] === 0) {
+        sx = turt.curX;
+        sy = turt.curY;
+
+        onOffGrid[turt.curY][turt.curX] = 1;
+
+        turnRight(turtleNum);
+        moveForward(turtleNum);
+        drawPoint(sx, sy);
+        drawTurtle(turtleNum);
+    } else {
+        sx = turt.curX;
+        sy = turt.curY;
+
+        onOffGrid[turt.curY][turt.curX] = 0;
+
+        turnLeft(turtleNum);
+        moveForward(turtleNum);
+        drawPoint(sx, sy);
+        drawTurtle(turtleNum);
     }
+}
 
-    function startTurtle() {
+function findNextFrame() {
+    for (var i = 0; i < turtles.length; i++) findNextFrameFor(i);
+}
 
-        $('#turtleCanvas').attr({
-            width: canvasWidth,
-            height: canvasHeight
-        }).css({
-            backgroundColor: backShade
-        });
-
-        ctx.fillStyle = offShade;
-        for (var startY = 0; startY < pointsDown; startY++) {
-            blankGrid.push([]);
-            for (var startX = 0; startX < pointsRight; startX++) {
-                blankGrid[startY].push(0);
-
-                var startRectX = startX * (pointWidthAndMargin) + pointMarginT;
-                var startRectY = startY * (pointHeightAndMargin) + pointMarginT;
-
-                ctx.fillRect(startRectX, startRectY, pointWidth, pointHeight);
-            }
-            onOffGrid.push(blankGrid[startY].slice(0));
+function findNextFrameUntilEnd() {
+    if (turtleEnd && messyEnd) {
+        console.log("ended");
+        for (var e = 0; e < turtles.length; e++) {
+            console.log("turtles " + e, turtles[e].curX, turtles[e].curY);
         }
-        findNextFrameUntilEnd();
+    } else if (!turtleEnd) {
+        findNextFrame();
+        setTimeout(function () {
+            findNextFrameUntilEnd();
+        }, turtleInterval);
     }
-    $('body').on('contextmenu', '#turtleCanvas', function () {
-        return false;
+}
+
+function nextMode() {
+    modeNum++;
+    if (modeNum >= modeNames.length) modeNum = 0;
+
+    turtleEnd = modeNum === 2;
+    messyEnd = !turtleEnd;
+
+    turtleShade = shades[modeNum];
+    turtleInterval = modeTimeouts[modeNum];
+    $("#mode").empty().append(modeNames[modeNum]);
+    $("#speed").empty().append(turtleInterval);
+    drawAllTurtles();
+
+    clearTimeout(assignedFrameTimeout);
+    findNextFrameUntilEnd();
+}
+
+function startTurtle() {
+
+    $('#turtleCanvas').attr({
+        width: canvasWidth,
+        height: canvasHeight
+    }).css({
+        backgroundColor: backShade
     });
 
-    $(document).mousedown(function(e){
-        switch(e.which)
-        {
+    ctx.fillStyle = offShade;
+    for (var startY = 0; startY < pointsDown; startY++) {
+        blankGrid.push([]);
+        for (var startX = 0; startX < pointsRight; startX++) {
+            blankGrid[startY].push(0);
+
+            var startRectX = startX * (pointWidthAndMargin) + pointMarginT;
+            var startRectY = startY * (pointHeightAndMargin) + pointMarginT;
+
+            ctx.fillRect(startRectX, startRectY, pointWidth, pointHeight);
+        }
+        onOffGrid.push(blankGrid[startY].slice(0));
+    }
+
+    assignedFrameTimeout = setTimeout(function () {
+        findNextFrameUntilEnd();
+    }, turtleInterval);
+}
+
+window.onload = function () {
+    canvas = document.getElementById('turtleCanvas');
+    ctx = canvas.getContext('2d');
+
+    $("#turtleCanvas").mousedown(function (e) {
+        e.preventDefault();
+        switch (e.which) {
             case 1:
-                if (!veryFast) {
-                    if (turtleTimeout < 1000) {
-                        turtleTimeout = turtleTimeout * 2;
-                        $("#speed").empty().append(turtleTimeout);
+                if (modeNum === 0) {
+                    if (turtleInterval < 1000) {
+                        turtleInterval = turtleInterval * 2;
+                        $("#speed").empty().append(turtleInterval);
                     }
+                } else if (modeNum === 2) {
+                    findNextFrame();
                 }
                 break;
             case 2:
-                if (veryFast) {
-                    turtleShade = normalShade;
-                    turtleTimeout = prevTimeout;
-                    veryFast = false;
-                    $("#mode").empty().append("Normal");
-                    $("#speed").empty().append(turtleTimeout);
-                } else {
-                    turtleShade = fastShade;
-                    prevTimeout = turtleTimeout;
-                    turtleTimeout = 0;
-                    veryFast = true;
-                    $("#mode").empty().append("Fast");
-                    $("#speed").empty().append(turtleTimeout);
-                }
+                nextMode();
                 break;
             case 3:
-                if (!veryFast) {
-                    if (turtleTimeout > 10) {
-                        turtleTimeout = turtleTimeout / 2;
-                        $("#speed").empty().append(turtleTimeout);
+                if (modeNum === 0) {
+                    if (turtleInterval > 10) {
+                        turtleInterval = turtleInterval / 2;
+                        $("#speed").empty().append(turtleInterval);
                     }
                 }
                 break;
