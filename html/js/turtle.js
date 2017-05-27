@@ -16,15 +16,15 @@ window.onload = function() {
 
     var turtle = [];
     turtle.push(new Turtle(
-        0, //Facing, 0 = Up, 1 = Left, etc...
+        0, //Facing, 0 = Up, 1 = Right, etc...
         49, //Starting X coordinate
         50 //Starting Y coordinate
     ));
 
     turtle.push(new Turtle(
-        2, //Facing, 0 = Up, 1 = Left, etc...
-        51, //Starting X coordinate
-        50 //Starting Y coordinate
+        2,
+        51,
+        50
     ));
 
     var turtleEnd = false;
