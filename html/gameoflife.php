@@ -53,7 +53,7 @@
                         <button class="menuButton mdl-button mdl-js-button" id="playPause">Play</button>
                         <button class="menuButton mdl-button mdl-js-button" id="step">Step</button>
                         <button class="menuButton mdl-button mdl-js-button" id="clear">Clear</button>
-                        <input class="mdl-slider mdl-js-slider" id="intervalSlider" type="range" min="0" max="500" step="5" />
+                        <input class="mdl-slider mdl-js-slider" id="intervalSlider" type="range" min="0" max="500" step="5" value="100" />
                         <div id="intervalNumberDiv">
                             <div class="mdl-textfield mdl-js-textfield">
                                 <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="intervalNumber">

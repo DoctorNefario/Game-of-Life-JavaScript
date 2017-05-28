@@ -8,13 +8,13 @@
 
 #rightClickMenu {
     background-color: white;
-    width: 484px;
+    width: 442px;
     height: 120px;
 }
 
 #golWindow {
-    width: 484px;
-    height: 604px;
+    width: 442px;
+    height: 562px;
     margin: 20px auto;
     background-color: #90caf9;
     border: 2px solid black;

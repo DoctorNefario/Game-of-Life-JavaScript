@@ -2,25 +2,30 @@
  * Created by Charles Maher on 4/5 2017.
  */
 //Start of customisation
+//Never make 1 dimensional, it breaks
 
 //Dimensions, in px (Can't change measurement)
 var pointWidth = 20;
 var pointHeight = 20;
 
-var pointMargin = 2;
+var pointMargin = 1;
 
 var pointsRight = 20;
 var pointsDown = 20;
 
 //Colours
-var onShade = '#eee';
-var offShade = '#222';
+var onShade = '#222';
+var offShade = '#eee';
 var backShade = '#ccc';
+
+var drawMode = 0;
 
 //Whether or not it loops
 var loopsAround = true;
 
 //End of customisation
+
+var modeShades = [offShade, onShade];
 
 var loopFrames = false;
 var stepTimeout = 100;
@@ -60,71 +65,40 @@ function returnMousePointOnGrid(e) {
     return [gridX, gridY];
 }
 
+function drawPoint(x, y, mode) {
+    ctx.fillStyle = modeShades[mode];
+    ctx.fillRect(
+        x * (pointWidthAndMargin) + pointMarginT,
+        y * (pointHeightAndMargin) + pointMarginT,
+        pointWidth,
+        pointHeight
+    );
+}
+
 function togglePoint(x, y) {
     var curVal = onOffGrid[y][x];
     if (curVal === 1) {
         onOffGrid[y][x] = 0;
-        ctx.fillStyle = offShade;
-        ctx.fillRect(
-            x * (pointWidthAndMargin) + pointMarginT,
-            y * (pointHeightAndMargin) + pointMarginT,
-            pointWidth,
-            pointHeight
-        );
-    } else if (curVal === 0) {
-        onOffGrid[y][x] = 1;
-        ctx.fillStyle = onShade;
-        ctx.fillRect(
-            x * (pointWidthAndMargin) + pointMarginT,
-            y * (pointHeightAndMargin) + pointMarginT,
-            pointWidth,
-            pointHeight
-        );
     } else {
+        onOffGrid[y][x] = 1;
     }
+
+    drawPoint(x, y, onOffGrid[y][x]);
 }
 
 function updateVisual(x, y) {
     var curVal = onOffGrid[y][x];
-    if (curVal === 1) {
-        ctx.fillStyle = onShade;
-        ctx.fillRect(
-            x * (pointWidthAndMargin) + pointMarginT,
-            y * (pointHeightAndMargin) + pointMarginT,
-            pointWidth,
-            pointHeight
-        );
-    } else if (curVal === 0) {
-        ctx.fillStyle = offShade;
-        ctx.fillRect(
-            x * (pointWidthAndMargin) + pointMarginT,
-            y * (pointHeightAndMargin) + pointMarginT,
-            pointWidth,
-            pointHeight
-        );
-    }
+    drawPoint(x, y, curVal);
 }
 
 function turnPointOn(x, y) {
     onOffGrid[y][x] = 1;
-    ctx.fillStyle = onShade;
-    ctx.fillRect(
-        x * (pointWidthAndMargin) + pointMarginT,
-        y * (pointHeightAndMargin) + pointMarginT,
-        pointWidth,
-        pointHeight
-    );
+    drawPoint(x, y, 1);
 }
 
 function turnPointOff(x, y) {
     onOffGrid[y][x] = 0;
-    ctx.fillStyle = offShade;
-    ctx.fillRect(
-        x * (pointWidthAndMargin) + pointMarginT,
-        y * (pointHeightAndMargin) + pointMarginT,
-        pointWidth,
-        pointHeight
-    );
+    drawPoint(x, y, 0);
 }
 
 
@@ -350,9 +324,8 @@ function clearGrid() {
     }
 }
 
-function startGoL() {
-
-    $('#golCanvas').attr({
+function drawCanvas() {
+    jCanvas.attr({
         width: canvasWidth,
         height: canvasHeight
     }).css({
@@ -361,17 +334,65 @@ function startGoL() {
 
     ctx.fillStyle = offShade;
     for (var startY = 0; startY < pointsDown; startY++) {
-        blankGrid.push([]);
         for (var startX = 0; startX < pointsRight; startX++) {
-            blankGrid[startY].push(0);
-
             var startRectX = startX * (pointWidthAndMargin) + pointMarginT;
             var startRectY = startY * (pointHeightAndMargin) + pointMarginT;
 
             ctx.fillRect(startRectX, startRectY, pointWidth, pointHeight);
         }
-        onOffGrid.push(blankGrid[startY].slice(0));
-        surroundingGrid.push(blankGrid[startY].slice(0));
+    }
+}
+
+function startGoL() {
+    modeShades = [offShade, onShade];
+
+    loopFrames = false;
+    stepTimeout = 100;
+
+    pointMarginT = pointMargin * 2;
+
+    pointWidthAndMargin = pointWidth + pointMarginT;
+    pointHeightAndMargin = pointHeight + pointMarginT;
+
+    canvasWidth = pointsRight * (pointWidthAndMargin) + pointMarginT;
+    canvasHeight = pointsDown * (pointHeightAndMargin) + pointMarginT;
+
+    onOffGrid = [];
+    surroundingGrid = [];
+    needsUpdatePoints = [];
+    blankGrid = [];
+
+    console.log("Drawing grid");
+    console.log(pointWidth + "px point width | " + pointHeight + "px point height | " + pointMargin + "px margin");
+    console.log(pointsRight + " points across | " + pointsDown + " points down");
+    console.log(canvasWidth + "px total width | " + canvasHeight + "px total height");
+    console.log("Draw mode: " + drawMode);
+
+    //Sets visual stuff
+    $("#rightClickMenu").css("width", canvasWidth);
+    $("#golWindow").css({
+        width: canvasWidth,
+        height: canvasHeight + 120
+    });
+
+    $(".menuButton").css("width", Math.floor(canvasWidth / 3) - 3);
+
+    $("#golMenu").css({
+        width: canvasWidth,
+        height: canvasHeight + 120
+    });
+
+    drawCanvas();
+
+    for (var startY = 0; startY < pointsDown; startY++) {
+        blankGrid.push([]);
+
+        for (var startX = 0; startX < pointsRight; startX++) {
+            blankGrid[startY].push(0);
+        }
+
+        onOffGrid.push(blankGrid[startY].slice());
+        surroundingGrid.push(blankGrid[startY].slice());
     }
 
 }
@@ -469,6 +490,11 @@ function frameLoop() {
     }
 }
 
+function resetGoLTimeout() {
+    clearTimeout(nextFrameTimeout);
+    frameLoop();
+}
+
 window.onload = function () {
 
     jCanvas = $("#golCanvas");
@@ -501,11 +527,6 @@ window.onload = function () {
         }
         frameLoop();
     });
-
-    function resetGoLTimeout() {
-        clearTimeout(nextFrameTimeout);
-        frameLoop();
-    }
 
     $("#clear").click(function () {
         clearGrid();
