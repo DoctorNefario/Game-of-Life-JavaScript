@@ -16,6 +16,7 @@ var pointsDown = 20;
 //Colours
 var onShade = '#222';
 var offShade = '#eee';
+var previewShade = "#7de";
 var backShade = '#ccc';
 
 var drawMode = 0;
@@ -24,6 +25,12 @@ var drawMode = 0;
 var loopsAround = true;
 
 //End of customisation
+
+var dragging = false;
+var dragMode = 1;
+
+var lx = null;
+var ly = null;
 
 var modeShades = [offShade, onShade];
 
@@ -55,13 +62,6 @@ function returnMousePointOnGrid(e) {
     var gridX = Math.floor(relX / (pointWidthAndMargin));
     var gridY = Math.floor(relY / (pointHeightAndMargin));
 
-    if (gridX >= pointsRight) {
-        gridX = pointsRight - 1;
-    }
-    if (gridY >= pointsDown) {
-        gridY = pointsRight - 1;
-    }
-
     return [gridX, gridY];
 }
 
@@ -73,6 +73,12 @@ function drawPoint(x, y, mode) {
         pointWidth,
         pointHeight
     );
+}
+
+function turnPoint(x, y, mode) {
+    onOffGrid[y][x] = mode;
+
+    drawPoint(x, y, mode);
 }
 
 function togglePoint(x, y) {
@@ -99,6 +105,16 @@ function turnPointOn(x, y) {
 function turnPointOff(x, y) {
     onOffGrid[y][x] = 0;
     drawPoint(x, y, 0);
+}
+
+function previewDraw(x, y) {
+    ctx.fillStyle = previewShade;
+    ctx.fillRect(
+        x * (pointWidthAndMargin) + pointMarginT,
+        y * (pointHeightAndMargin) + pointMarginT,
+        pointWidth,
+        pointHeight
+    );
 }
 
 
@@ -495,20 +511,72 @@ function resetGoLTimeout() {
     frameLoop();
 }
 
+function mousePreview(x, y) {
+    if (lx !== x || ly !== y) {
+        if (lx !== null && ly !== null && lx < pointsRight && ly < pointsDown) {
+            if (onOffGrid[ly][lx] === 0) {
+                drawPoint(lx, ly, 0);
+            } else {
+                drawPoint(lx, ly, 1);
+            }
+        }
+
+        previewDraw(x, y);
+
+        lx = x;
+        ly = y;
+    }
+}
+
 window.onload = function () {
 
     jCanvas = $("#golCanvas");
     canvas = document.getElementById('golCanvas');
     ctx = canvas.getContext('2d');
 
-    canvas.addEventListener('click', function (e) {
+    canvas.addEventListener('mousedown', function (e) {
+        dragging = true;
         var xy = returnMousePointOnGrid(e);
 
         var x = xy[0];
         var y = xy[1];
 
-        togglePoint(x, y);
-        updateVisual(x, y);
+        if (x < pointsRight && y < pointsDown) {
+            togglePoint(x, y);
+            updateVisual(x, y);
+        }
+        dragMode = onOffGrid[y][x];
+    }, false);
+
+    canvas.addEventListener('mousemove', function (e) {
+        var xy = returnMousePointOnGrid(e);
+
+        var x = xy[0];
+        var y = xy[1];
+
+        if (dragging) {
+            if ((x !== lx || y !== ly) && x < pointsRight && y < pointsDown) {
+                turnPoint(x, y, dragMode);
+                previewDraw(x, y);
+                if (lx !== null && ly !== null) {
+                    updateVisual(lx, ly);
+                }
+                lx = x;
+                ly = y;
+            }
+        } else {
+            mousePreview(x, y);
+        }
+    }, false);
+
+    canvas.addEventListener('mouseup', function () {
+        dragging = false;
+    }, false);
+
+    canvas.addEventListener('mouseleave', function () {
+        dragging = false;
+        drawPoint(lx, ly, 0);
+        lx = ly = null;
     }, false);
 
     //For turtle, opens a new window
