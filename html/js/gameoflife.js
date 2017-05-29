@@ -588,7 +588,7 @@ window.onload = function () {
 
     //Now, for touch!
     canvas.addEventListener('touchstart', function (e) {
-        e.preventDefault();
+        //e.preventDefault();
         dragging = true;
         var xy = returnMousePointOnGrid(e);
 
