@@ -56,8 +56,15 @@ var canvas, jCanvas, ctx;
 function returnMousePointOnGrid(e) {
     var offset = jCanvas.offset();
 
-    var relX = e.pageX - offset.left;
-    var relY = e.pageY - offset.top;
+    var relX, relY;
+
+    if (isNaN(e.pageX)) {
+        relX = e.touches[0].pageX - offset.left;
+        relY = e.touches[0].pageY - offset.top;
+    } else {
+        relX = e.pageX - offset.left;
+        relY = e.pageY - offset.top;
+    }
 
     var gridX = Math.floor(relX / (pointWidthAndMargin));
     var gridY = Math.floor(relY / (pointHeightAndMargin));
@@ -581,6 +588,7 @@ window.onload = function () {
 
     //Now, for touch!
     canvas.addEventListener('touchstart', function (e) {
+        e.preventDefault();
         dragging = true;
         var xy = returnMousePointOnGrid(e);
 
@@ -603,20 +611,18 @@ window.onload = function () {
         if (dragging) {
             if ((x !== lx || y !== ly) && x < pointsRight && y < pointsDown) {
                 turnPoint(x, y, dragMode);
-                previewDraw(x, y);
                 if (lx !== null && ly !== null) {
                     updateVisual(lx, ly);
                 }
                 lx = x;
                 ly = y;
             }
-        } else {
-            mousePreview(x, y);
         }
         e.preventDefault();
     }, false);
 
-    canvas.addEventListener('touchend', function () {
+    canvas.addEventListener('touchend', function (e) {
+        e.preventDefault();
         dragging = false;
     }, false);
 
