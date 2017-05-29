@@ -579,6 +579,47 @@ window.onload = function () {
         lx = ly = null;
     }, false);
 
+    //Now, for touch!
+    canvas.addEventListener('touchstart', function (e) {
+        dragging = true;
+        var xy = returnMousePointOnGrid(e);
+
+        var x = xy[0];
+        var y = xy[1];
+
+        if (x < pointsRight && y < pointsDown) {
+            togglePoint(x, y);
+            updateVisual(x, y);
+        }
+        dragMode = onOffGrid[y][x];
+    }, false);
+
+    canvas.addEventListener('touchmove', function (e) {
+        var xy = returnMousePointOnGrid(e);
+
+        var x = xy[0];
+        var y = xy[1];
+
+        if (dragging) {
+            if ((x !== lx || y !== ly) && x < pointsRight && y < pointsDown) {
+                turnPoint(x, y, dragMode);
+                previewDraw(x, y);
+                if (lx !== null && ly !== null) {
+                    updateVisual(lx, ly);
+                }
+                lx = x;
+                ly = y;
+            }
+        } else {
+            mousePreview(x, y);
+        }
+        e.preventDefault();
+    }, false);
+
+    canvas.addEventListener('touchend', function () {
+        dragging = false;
+    }, false);
+
     //For turtle, opens a new window
     document.getElementById("turtleInNewWindow").addEventListener('click', function () {
         window.open("turtle", "", "fullscreen=no, width=800, height=720");
@@ -620,10 +661,6 @@ window.onload = function () {
         stepTimeout = parseInt($("#intervalNumber").val());
         resetGoLTimeout();
     }).val(stepTimeout);
-    
-    jCanvas.bind('touchmove', function (e) {
-        e.preventDefault();
-    });
 
     startGoL();
 };
