@@ -542,14 +542,14 @@ window.onload = function () {
     });
 
     $("#intervalSlider").change(function () {
-        stepTimeout = 0 + $("#intervalSlider").val();
+        stepTimeout = parseInt($("#intervalSlider").val());
         $("#intervalNumber").val(stepTimeout);
         resetGoLTimeout();
     });
 
 
     $("#intervalNumber").change(function () {
-        stepTimeout = 0 + $("#intervalNumber").val();
+        stepTimeout = parseInt($("#intervalNumber").val());
         resetGoLTimeout();
     }).val(stepTimeout);
 
