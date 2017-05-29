@@ -626,6 +626,10 @@ window.onload = function () {
         dragging = false;
     }, false);
 
+    canvas.addEventListener('touchcancel', function (e) {
+        e.preventDefault();
+    }, false);
+
     //For turtle, opens a new window
     document.getElementById("turtleInNewWindow").addEventListener('click', function () {
         window.open("turtle", "", "fullscreen=no, width=800, height=720");
