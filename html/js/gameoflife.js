@@ -620,6 +620,10 @@ window.onload = function () {
         stepTimeout = parseInt($("#intervalNumber").val());
         resetGoLTimeout();
     }).val(stepTimeout);
+    
+    jCanvas.bind('touchmove', function (e) {
+        e.preventDefault();
+    });
 
     startGoL();
 };
