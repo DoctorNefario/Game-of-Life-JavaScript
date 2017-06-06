@@ -77,6 +77,4 @@ function startScript() {
     }, 1000);
 }
 
-window.onload = function() {
-    startScript();
-};
+startScript();
