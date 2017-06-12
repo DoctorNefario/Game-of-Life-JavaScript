@@ -1,21 +1,21 @@
 #alphabeast {
-	margin-left: 10px;
+    margin-left: 10px;
 }
 
-.alphaButton {
-	display: inline-block;
+.alpha-button {
+    display: inline-block;
 }
 
-.alphaAppend {
-	color: #000;
-	text-decoration: none;
+.alpha-append {
+    color: #000;
+    text-decoration: none;
 }
 
-.alphaChanged {
-	color: #800;
-	text-decoration: underline;
+.alpha-changed {
+    color: #800;
+    text-decoration: underline;
 }
 
-.hideAtStart {
-	display: none;
+.hide-at-start {
+    display: none;
 }

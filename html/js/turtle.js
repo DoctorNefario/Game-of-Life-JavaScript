@@ -1,6 +1,6 @@
-//Start of customisation
+// Start of customisation
 
-//Dimensions, in pixels
+// Dimensions, in pixels
 var pointWidth = 5;
 var pointHeight = 5;
 
@@ -9,12 +9,12 @@ var pointsDown = 100;
 
 var pointMargin = 0.5;
 
-var turtles = []; //Don't change this
+var turtles = []; // Don't change this
 
-turtles.push(new Turtle( //Template for creating turtles
-    0, //Facing, 0 = Up, 1 = Right, etc...
-    47, //Starting X coordinate
-    50 //Starting Y coordinate
+turtles.push(new Turtle( // Template for creating turtles
+    0, // Facing, 0 = Up, 1 = Right, etc...
+    47, // Starting X coordinate
+    50 // Starting Y coordinate
 ));
 
 turtles.push(new Turtle(
@@ -40,7 +40,7 @@ var messyEnd = true;
 
 var turtleInterval = 1000;
 
-//Colours
+// Colours
 var offShade = '#eee';
 var onShade = '#222';
 var backShade = '#ccc';
@@ -49,14 +49,14 @@ var stepShade = "#3e3";
 var normalShade = "#4cf";
 
 
-//End of customisation
+// End of customisation
 
-var modeNames = ["Normal", "Fast", "Frame by frame"]; //Just for displaying the current mode
-var modeTimeouts = [500, 0, "∞"]; //The string is bad practice, these should all be numbers
-var shades = [normalShade, fastShade, stepShade]; //This is easier to work with
+var modeNames = ["Normal", "Fast", "Frame by frame"]; // Just for displaying the current mode
+var modeTimeouts = [500, 0, "∞"]; // The string is bad practice, these should all be numbers
+var shades = [normalShade, fastShade, stepShade]; // This is easier to work with
 var turtleShade = shades[0];
 
-var modeNum = 0; //0 = Normal, 1 = Fast, 2 = Frame by frame
+var modeNum = 0; // 0 = Normal, 1 = Fast, 2 = Frame by frame
 
 var pointMarginT = pointMargin * 2;
 
@@ -137,7 +137,7 @@ function turnLeft(turtleNum) {
 }
 
 function moveForward(turtleNum) {
-    //0 is up, 1 is right, etc
+    // 0 is up, 1 is right, etc
     switch (turtles[turtleNum].facing) {
         case 0:
             if (turtles[turtleNum].curY > 0) {
@@ -203,7 +203,7 @@ function findNextFrameUntilEnd() {
         }
     } else if (!turtleEnd) {
         findNextFrame();
-        setTimeout(function () {
+        assignedFrameTimeout = setTimeout(function () {
             findNextFrameUntilEnd();
         }, turtleInterval);
     }
@@ -228,7 +228,7 @@ function nextMode() {
 
 function startTurtle() {
 
-    $('#turtleCanvas').attr({
+    $('#turtle-canvas').attr({
         width: canvasWidth,
         height: canvasHeight
     }).css({
@@ -249,16 +249,18 @@ function startTurtle() {
         onOffGrid.push(blankGrid[startY].slice(0));
     }
 
+    drawAllTurtles();
+
     assignedFrameTimeout = setTimeout(function () {
         findNextFrameUntilEnd();
     }, turtleInterval);
 }
 
 window.onload = function () {
-    canvas = document.getElementById('turtleCanvas');
+    canvas = document.getElementById('turtle-canvas');
     ctx = canvas.getContext('2d');
 
-    $("#turtleCanvas").mousedown(function (e) {
+    $("#turtle-canvas").mousedown(function (e) {
         e.preventDefault();
         switch (e.which) {
             case 1:
@@ -266,6 +268,12 @@ window.onload = function () {
                     if (turtleInterval < 1000) {
                         turtleInterval = turtleInterval * 2;
                         $("#speed").empty().append(turtleInterval);
+
+                        clearTimeout(assignedFrameTimeout);
+                        findNextFrame();
+                        assignedFrameTimeout = setTimeout(function () {
+                            findNextFrameUntilEnd();
+                        }, turtleInterval);
                     }
                 } else if (modeNum === 2) {
                     findNextFrame();
@@ -279,6 +287,12 @@ window.onload = function () {
                     if (turtleInterval > 10) {
                         turtleInterval = turtleInterval / 2;
                         $("#speed").empty().append(turtleInterval);
+
+                        clearTimeout(assignedFrameTimeout);
+                        findNextFrame();
+                        assignedFrameTimeout = setTimeout(function () {
+                            findNextFrameUntilEnd();
+                        }, turtleInterval);
                     }
                 }
                 break;

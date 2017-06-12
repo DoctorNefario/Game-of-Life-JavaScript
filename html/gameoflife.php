@@ -45,25 +45,25 @@
         </div>
         <main class="mdl-layout__content">
             <div class="page-content">
-                <div id="golWindow">
-                    <canvas id="golCanvas" width="0" height="0">Canvas is required for this program, please update or switch to a different browser such as Chrome or Firefox</canvas>
+                <div id="gol-window">
+                    <canvas id="gol-canvas" width="0" height="0">Canvas is required for this program, please update or switch to a different browser such as Chrome or Firefox</canvas>
                     <noscript><p>Your browser does not support JavaScript, this simply cannot work without it.</p></noscript>
 
-                    <div id="rightClickMenu">
-                        <button class="menuButton mdl-button mdl-js-button" id="playPause">Play</button>
-                        <button class="menuButton mdl-button mdl-js-button" id="step">Step</button>
-                        <button class="menuButton mdl-button mdl-js-button" id="clear">Clear</button>
-                        <input class="mdl-slider mdl-js-slider" id="intervalSlider" type="range" min="0" max="500" step="5" value="100" />
-                        <div id="intervalNumberDiv">
+                    <div id="right-click-menu">
+                        <button class="menu-button mdl-button mdl-js-button" id="play-pause">Play</button>
+                        <button class="menu-button mdl-button mdl-js-button" id="step">Step</button>
+                        <button class="menu-button mdl-button mdl-js-button" id="clear">Clear</button>
+                        <input class="mdl-slider mdl-js-slider" id="interval-slider" type="range" min="0" max="500" step="5" value="100" />
+                        <div id="interval-number-div">
                             <div class="mdl-textfield mdl-js-textfield">
-                                <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="intervalNumber">
+                                <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="interval-number">
                                 <label class="mdl-textfield__label">Number...</label>
                                 <span class="mdl-textfield__error">Input is not a number!</span>
                             </div>
                         </div>
                     </div>
                 </div>
-                <a id="turtleInNewWindow" href="">Turtle</a>
+                <a id="turtle-in-new-window" href="">Turtle</a>
             </div>
         </main>
     </div>

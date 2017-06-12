@@ -42,11 +42,11 @@
 				<div class="page-content">
 					<div id="alphabeast">
 						<div class="mdl-textfield mdl-js-textfield">
-							<input class="mdl-textfield__input" type="text" id="alphaGet">
-							<label class="mdl-textfield__label" for="alphaGet">Alphabeast...</label>
+							<input class="mdl-textfield__input" type="text" id="alpha-get">
+							<label class="mdl-textfield__label" for="alpha-get">Alphabeast...</label>
 						</div>
-						<button id="alphaStart" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--raised mdl-button--colored alphaButton">Generate</button>
-						<button id="alphaDownload" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--raised mdl-button--colored alphaButton hideAtStart">Download</button>
+						<button id="alpha-start" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--raised mdl-button--colored alpha-button">Generate</button>
+						<button id="alpha-download" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--raised mdl-button--colored alpha-button hide-at-start">Download</button>
 					</div>
 				</div>
 			</main>

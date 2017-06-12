@@ -1,11 +1,11 @@
 $(document).ready(function() {
-//To decode any of the DNA challenges
-//Can now encode those challenges and produce the opposite string
+// To decode any of the DNA challenges
+// Can now encode those challenges and produce the opposite string
 
-//This is what stops the string from being too large, change it at your peril.
+// This is what stops the string from being too large, change it at your peril.
 var maxInputLength = 1000;
 
-//This part was quite annoying
+// This part was quite annoying
 var decoder = [
 	[
 		["m", "y", "w", "t"],
@@ -47,14 +47,14 @@ function addOutput(outputToAdd) {
 };
 
 var letAndNum = " abcdefghijklmnopqrstuvwxyz."
-//I had to start over because the first time the code was just a mess
+// I had to start over because the first time the code was just a mess
 
-//Variables
+// Variables
 var inputVal = 0;
 var stringLength;
 var decodedString;
 
-//This turns the letters into number so they're easier to work with
+// This turns the letters into number so they're easier to work with
 var letToNum = function(lett) {
 	letter = lett.toLowerCase();
 	if(letter == "a") {
@@ -66,28 +66,28 @@ var letToNum = function(lett) {
 	} else if(letter == "t") {
 		return 3;
 	} else {
-		//Error message for ya
+		// Error message for ya
 		emptyOutput();
 		addOutput('Error: "' + lett + '" is not a valid decode letter; ');
 		return null;
 	};
 };
 
-//Get's the string, removes spaces, gets amount of *decoded* letters
+// Get's the string, removes spaces, gets amount of *decoded* letters
 var setDecodeString = function() {
-	inputVal = $("#input").val(); //Gets the value in the box
-	inputVal = inputVal.replace(/\s/g, ''); //Removes all spaces. May have gotten this one from the internet
-	inputVal = inputVal.replace(/;/g, ''); //Removes all ';'s, just in case
+	inputVal = $("#input").val(); // Gets the value in the box
+	inputVal = inputVal.replace(/\s/g, ''); // Removes all spaces. May have gotten this one from the internet
+	inputVal = inputVal.replace(/;/g, ''); // Removes all ';'s, just in case
 	stringLength = inputVal.length/3;
-	if(stringLength%1 !== 0) { //Checks if it's a whole number, errors if it's not
-		//Another error message
+	if(stringLength%1 !== 0) { // Checks if it's a whole number, errors if it's not
+		// Another error message
 		emptyOutput();
 		addOutput("Error: String not a multiple of 3; ");
-		stringLength = 0; //Makes sure nothing happens after this error
+		stringLength = 0; // Makes sure nothing happens after this error
 	};
 };
 
-//This will clean the string to add capitals where needed
+// This will clean the string to add capitals where needed
 var cleanString = function() {
 	cleanedString = decodedString.charAt(0).toUpperCase() + decodedString.substr(1, decodedString.length);
 	for(k = 0; k < cleanedString.length; k++) {
@@ -102,27 +102,27 @@ var cleanString = function() {
 
 var decodeInput = function() {
 	setDecodeString();
-	var decode = []; //New variable for storing the decode
+	var decode = []; // New variable for storing the decode
 	for(i = 0; i < stringLength; i++) {
 		for(n = 0; n < 3; n++) {
 			var cur = (i * 3) + n;
 			decode[n] = letToNum(inputVal.charAt(cur));
 		};
-		if(i==0) { //Makes sure the string is clean
-			decodedString = decoder[decode[0]][decode[1]][decode[2]]; //Changes the string to the decoded letter
+		if(i==0) { // Makes sure the string is clean
+			decodedString = decoder[decode[0]][decode[1]][decode[2]]; // Changes the string to the decoded letter
 		} else {
-			decodedString += decoder[decode[0]][decode[1]][decode[2]]; //Adds the decoded letter to the string
+			decodedString += decoder[decode[0]][decode[1]][decode[2]]; // Adds the decoded letter to the string
 		};
 	};
-	if(stringLength !== 0) { //Makes sure that error messages don't get replaced by this
+	if(stringLength !== 0) { // Makes sure that error messages don't get replaced by this
 		decodedString = cleanString();
 		emptyOutput();
-		setInput(decodedString); //Shows the decoded string
+		setInput(decodedString); // Shows the decoded string
 	};
 };
 
 
-//New section for encoding
+// New section for encoding
 
 var encodedOutput;
 var previousLetter;
@@ -139,7 +139,7 @@ var numToLet = function(num) {
 	} else if(num == 3) {
 		return "T";
 	} else {
-		//Error message for ya
+		// Error message for ya
 		emptyOutput();
 		addOutput('Error: "' + num + '" is not a valid number; ');
 		return null;
@@ -174,12 +174,12 @@ var findAllInArray = function(toFind) {
 };
 
 var setEncodeString = function() {
-	inputVal = $("#input").val(); //Gets the value in the box
-	inputVal = inputVal.toLowerCase(); //Makes it all lower case
+	inputVal = $("#input").val(); // Gets the value in the box
+	inputVal = inputVal.toLowerCase(); // Makes it all lower case
 };
 
 var gNum = function(arrayOfNums) {
-	//This now returns something useful
+	// This now returns something useful
 	if(previousLetter == 0) {
 		return 0;
 	} else {
@@ -256,23 +256,23 @@ var encodeInput = function() {
 };
 
 
-//Run section
-$("#decode").click(function() { //Makes the button do stuff when it's clicked
+// Run section
+$("#decode").click(function() { // Makes the button do stuff when it's clicked
 	emptyOutput();
-	addOutput("Error: No input; "); //This error placement is ugly but effective
-	decodeInput(); //Decodes the input
+	addOutput("Error: No input; "); // This error placement is ugly but effective
+	decodeInput(); // Decodes the input
 });
 
-$("#encode").click(function() { //This time for encoding
+$("#encode").click(function() { // This time for encoding
 	emptyOutput();
 	
-	encodeInput(); //Encodes the input
+	encodeInput(); // Encodes the input
 });
 
-$("#recode").click(function() { //This time for recoding
+$("#recode").click(function() { // This time for recoding
 	emptyOutput();
 	
-	stringToOpposite(inputVal); //Recodes the input
+	stringToOpposite(inputVal); // Recodes the input
 });
 
 addOutput("Use a button. ");

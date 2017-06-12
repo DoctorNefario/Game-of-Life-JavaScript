@@ -1,10 +1,7 @@
-/**
- * Created by Charles Maher on 4/5 2017.
- */
-//Start of customisation
-//Never make 1 dimensional, it breaks
+// Start of customisation
+// Never make 1 dimensional, it breaks
 
-//Dimensions, in px (Can't change measurement)
+// Dimensions, in px (Can't change measurement)
 var pointWidth = 20;
 var pointHeight = 20;
 
@@ -13,7 +10,7 @@ var pointMargin = 1;
 var pointsRight = 20;
 var pointsDown = 20;
 
-//Colours
+// Colours
 var onShade = '#222';
 var offShade = '#eee';
 var previewShade = "#7de";
@@ -21,10 +18,10 @@ var backShade = '#ccc';
 
 var drawMode = 0;
 
-//Whether or not it loops
+// Whether or not it loops
 var loopsAround = true;
 
-//End of customisation
+// End of customisation
 
 var dragging = false;
 var dragMode = 1;
@@ -391,16 +388,16 @@ function startGoL() {
     console.log(canvasWidth + "px total width | " + canvasHeight + "px total height");
     console.log("Draw mode: " + drawMode);
 
-    //Sets visual stuff
-    $("#rightClickMenu").css("width", canvasWidth);
-    $("#golWindow").css({
+    // Sets visual stuff
+    $("#right-click-menu").css("width", canvasWidth);
+    $("#gol-window").css({
         width: canvasWidth,
         height: canvasHeight + 120
     });
 
-    $(".menuButton").css("width", Math.floor(canvasWidth / 3) - 3);
+    $(".menu-button").css("width", Math.floor(canvasWidth / 3) - 3);
 
-    $("#golMenu").css({
+    $("#gol-menu").css({
         width: canvasWidth,
         height: canvasHeight + 120
     });
@@ -441,8 +438,8 @@ function findNextFrame() {
 }
 
 function altFindNextFrame() {
-    //This is much faster for many points, but slower for few.
-    //When I was making it, I was actually expecting the opposite
+    // This is much faster for many points, but slower for few.
+    // When I was making it, I was actually expecting the opposite
     findAllUpdatePoints();
 
     altAllSurrounding();
@@ -483,29 +480,6 @@ function timedAltFindNextFrame() {
     console.log("Frame took " + (t1 - t0) + "ms");
 }
 
-function changeMenu(mode) {
-    var RCM = $("#rightClickMenu");
-    var RCB = $("#rightClickBackground");
-    if (!mode) {
-        var currentState = RCM.is(":visible");
-        if (currentState) {
-            RCM.hide();
-            RCB.hide();
-        } else {
-            RCM.show();
-            RCB.show();
-        }
-    } else {
-        if (mode === 0) {
-            RCM.hide();
-            RCB.hide();
-        } else {
-            RCM.show();
-            RCB.show();
-        }
-    }
-}
-
 function frameLoop() {
     if (loopFrames) {
         findNextFrame();
@@ -537,8 +511,8 @@ function mousePreview(x, y) {
 
 window.onload = function () {
 
-    jCanvas = $("#golCanvas");
-    canvas = document.getElementById('golCanvas');
+    jCanvas = $("#gol-canvas");
+    canvas = document.getElementById('gol-canvas');
     ctx = canvas.getContext('2d');
 
     canvas.addEventListener('mousedown', function (e) {
@@ -586,9 +560,9 @@ window.onload = function () {
         lx = ly = null;
     }, false);
 
-    //Now, for touch!
+    // Now, for touch!
     canvas.addEventListener('touchstart', function (e) {
-        //e.preventDefault();
+        // e.preventDefault();
         dragging = true;
         var xy = returnMousePointOnGrid(e);
 
@@ -630,19 +604,20 @@ window.onload = function () {
         e.preventDefault();
     }, false);
 
-    //For turtle, opens a new window
-    document.getElementById("turtleInNewWindow").addEventListener('click', function () {
+    // For turtle, opens a new window
+    document.getElementById("turtle-in-new-window").addEventListener('click', function () {
         window.open("turtle", "", "fullscreen=no, width=800, height=720");
         return false;
     });
 
-    $("#playPause").click(function () {
+    var playPause = $("#play-pause");
+    playPause.click(function () {
         clearTimeout(nextFrameTimeout);
         loopFrames = !loopFrames;
         if (loopFrames) {
-            $("#playPause").empty().append("Pause");
+            playPause.empty().append("Pause");
         } else {
-            $("#playPause").empty().append("Play");
+            playPause.empty().append("Play");
         }
         frameLoop();
     });
@@ -655,20 +630,15 @@ window.onload = function () {
         findNextFrame();
     });
 
-    $("#rightClickBackground").click(function () {
-        //Hide menu
-        changeMenu(0);
-    });
-
-    $("#intervalSlider").change(function () {
-        stepTimeout = parseInt($("#intervalSlider").val());
-        $("#intervalNumber").val(stepTimeout);
+    $("#interval-slider").change(function () {
+        stepTimeout = parseInt($("#interval-slider").val());
+        $("#interval-number").val(stepTimeout);
         resetGoLTimeout();
     });
 
 
-    $("#intervalNumber").change(function () {
-        stepTimeout = parseInt($("#intervalNumber").val());
+    $("#interval-number").change(function () {
+        stepTimeout = parseInt($("#interval-number").val());
         resetGoLTimeout();
     }).val(stepTimeout);
 
