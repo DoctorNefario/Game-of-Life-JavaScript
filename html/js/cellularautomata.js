@@ -12,7 +12,7 @@ var pointsDown = 9;
 // Colours
 
 var onShade = '#222';
-var offShade = '#eee';
+var offShade = '#bbb';
 
 var canvas, ctx;
 
@@ -38,9 +38,13 @@ function initAutomata() {
             ctx.fillRect(startRectX, startRectY, pointWidth, pointHeight);
         }
     }
+
+    var startPointX = 4 * (pointWidth + pointMarginT) + pointMarginT;
+    var startPointY = pointMarginT;
+    ctx.fillStyle = onShade;
+    ctx.fillRect(startPointX, startPointY, pointWidth, pointHeight);
 }
 
 window.onload = function () {
-    console.log("Test");
     initAutomata();
 };

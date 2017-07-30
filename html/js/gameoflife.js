@@ -345,12 +345,10 @@ function clearGrid() {
 }
 
 function drawCanvas() {
-    jCanvas.attr({
-        width: canvasWidth,
-        height: canvasHeight
-    }).css({
-        backgroundColor: backShade
-    });
+
+    canvas.setAttribute('width', canvasWidth);
+    canvas.setAttribute('height', canvasHeight);
+    canvas.setAttribute('style', 'background:' + backShade + ';');
 
     ctx.fillStyle = offShade;
     for (var startY = 0; startY < pointsDown; startY++) {

@@ -108,6 +108,46 @@ function drawTurtle(turtleNum) {
         pointWidth,
         pointHeight
     );
+
+    var startX;
+    var startY;
+    var sizeX;
+    var sizeY;
+
+    switch (turtles[turtleNum].facing) {
+        case 0:
+            startX = turtles[turtleNum].curX * (pointWidthAndMargin) + pointMarginT + 1;
+            startY = turtles[turtleNum].curY * (pointHeightAndMargin) + pointMarginT;
+            sizeX = pointWidth - 2;
+            sizeY = 1;
+            break;
+        case 1:
+            startX = turtles[turtleNum].curX * (pointWidthAndMargin) + pointMarginT + pointWidth - 1;
+            startY = turtles[turtleNum].curY * (pointHeightAndMargin) + pointMarginT + 1;
+            sizeX = 1;
+            sizeY = pointHeight - 2;
+            break;
+        case 2:
+            startX = turtles[turtleNum].curX * (pointWidthAndMargin) + pointMarginT + 1;
+            startY = turtles[turtleNum].curY * (pointHeightAndMargin) + pointMarginT + pointHeight - 1;
+            sizeX = pointWidth - 2;
+            sizeY = 1;
+            break;
+        case 3:
+            startX = turtles[turtleNum].curX * (pointWidthAndMargin) + pointMarginT;
+            startY = turtles[turtleNum].curY * (pointHeightAndMargin) + pointMarginT + 1;
+            sizeX = 1;
+            sizeY = pointHeight - 2;
+            break;
+    }
+
+    ctx.fillStyle = onShade;
+    ctx.fillRect(
+        startX,
+        startY,
+        sizeX,
+        sizeY
+    );
 }
 
 function drawAllTurtles() {
@@ -117,22 +157,18 @@ function drawAllTurtles() {
 }
 
 function turnRight(turtleNum) {
-    switch (turtles[turtleNum].facing) {
-        case 3:
-            turtles[turtleNum].facing = 0;
-            break;
-        default:
-            turtles[turtleNum].facing++;
+    if (turtles[turtleNum].facing === 3) {
+        turtles[turtleNum].facing = 0;
+    } else {
+        turtles[turtleNum].facing++;
     }
 }
 
 function turnLeft(turtleNum) {
-    switch (turtles[turtleNum].facing) {
-        case 0:
-            turtles[turtleNum].facing = 3;
-            break;
-        default:
-            turtles[turtleNum].facing--;
+    if (turtles[turtleNum].facing === 0) {
+        turtles[turtleNum].facing = 3;
+    } else {
+        turtles[turtleNum].facing--;
     }
 }
 
@@ -160,7 +196,7 @@ function moveForward(turtleNum) {
             } else turtles[turtleNum].curX = pointsRight - 1;
             break;
         default:
-            console.log("incorrect given: " + turtles[turtleNum].facing);
+            throw "incorrect given: " + turtles[turtleNum].facing;
     }
 }
 

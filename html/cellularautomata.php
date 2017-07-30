@@ -13,6 +13,7 @@
 
     <!-- Specific resources -->
     <script src="js/cellularautomata.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/cellularautomata.css">
 </head>
 <body>
     <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
@@ -44,14 +45,95 @@
         </div>
         <main class="mdl-layout__content">
             <div class="page-content">
-                <div id="switches">
+                <div id="automata">
+                    <div id="switches">
 
-                </div>
-                <div id="output">
-                    <canvas id="automata-canvas"></canvas>
+                        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-128">
+                            <input type="checkbox" id="checkbox-128" class="mdl-checkbox__input">
+                            <span class="mdl-checkbox__label">
+                                <a class="automata-block aut-on"></a>
+                                <a class="automata-block aut-on"></a>
+                                <a class="automata-block aut-on"></a>
+                                128
+                            </span>
+                        </label>
+
+                        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-64">
+                            <input type="checkbox" id="checkbox-64" class="mdl-checkbox__input">
+                            <span class="mdl-checkbox__label">
+                                <a class="automata-block aut-on"></a>
+                                <a class="automata-block aut-on"></a>
+                                <a class="automata-block aut-off"></a>
+                                64
+                            </span>
+                        </label>
+
+                        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-32">
+                            <input type="checkbox" id="checkbox-32" class="mdl-checkbox__input">
+                            <span class="mdl-checkbox__label">
+                                <a class="automata-block aut-on"></a>
+                                <a class="automata-block aut-off"></a>
+                                <a class="automata-block aut-on"></a>
+                                32
+                            </span>
+                        </label>
+
+                        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-16">
+                            <input type="checkbox" id="checkbox-16" class="mdl-checkbox__input">
+                            <span class="mdl-checkbox__label">
+                                <a class="automata-block aut-on"></a>
+                                <a class="automata-block aut-off"></a>
+                                <a class="automata-block aut-off"></a>
+                                16
+                            </span>
+                        </label>
+
+                        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-8">
+                            <input type="checkbox" id="checkbox-8" class="mdl-checkbox__input">
+                            <span class="mdl-checkbox__label">
+                                <a class="automata-block aut-off"></a>
+                                <a class="automata-block aut-on"></a>
+                                <a class="automata-block aut-on"></a>
+                                8
+                            </span>
+                        </label>
+
+                        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-4">
+                            <input type="checkbox" id="checkbox-4" class="mdl-checkbox__input">
+                            <span class="mdl-checkbox__label">
+                                <a class="automata-block aut-off"></a>
+                                <a class="automata-block aut-on"></a>
+                                <a class="automata-block aut-off"></a>
+                                4
+                            </span>
+                        </label>
+
+                        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-2">
+                            <input type="checkbox" id="checkbox-2" class="mdl-checkbox__input">
+                            <span class="mdl-checkbox__label">
+                                <a class="automata-block aut-off"></a>
+                                <a class="automata-block aut-off"></a>
+                                <a class="automata-block aut-on"></a>
+                                2
+                            </span>
+                        </label>
+
+                        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-1">
+                            <input type="checkbox" id="checkbox-1" class="mdl-checkbox__input">
+                            <span class="mdl-checkbox__label">
+                                <a class="automata-block aut-off"></a>
+                                <a class="automata-block aut-off"></a>
+                                <a class="automata-block aut-off"></a>
+                                1
+                            </span>
+                        </label>
+                    </div>
+                    <div id="output">
+                        <canvas id="automata-canvas"></canvas>
+                    </div>
+                    Not even close to finished. How did you get here?
                 </div>
             </div>
-            Not even close to finished. How did you get here?
         </main>
     </div>
 </body>
